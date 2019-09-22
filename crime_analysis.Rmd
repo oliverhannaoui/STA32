@@ -2,7 +2,7 @@
 title: "Crime Data Analysis"
 author: "Oliver Hannaoui"
 date: "6/13/2019"
-output: rmarkdown::github_document
+output: github_document
 ---
 
 ```{r, echo=FALSE}
