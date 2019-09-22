@@ -1,0 +1,145 @@
+---
+title: "R Report 2"
+author: "Oliver Hannaoui"
+date: "5/27/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(10)
+```
+
+Simulating a binomial random variable. Considering a class of 80 students and that the probability that a student does not turn in a homework is 0.15. Assuming independence and no change in probability as well.
+
+a) 
+Using the sample function, the number of students who don't turn in their homework is 5.
+```{r,echo=FALSE}
+#1(a)
+experiment = sample(c("X","F"),80,prob=c(0.15,0.85),replace=TRUE)
+sum(experiment=="X")
+```
+
+
+b) 
+Due to the fact that n>= 30 the distribution of the histogram is symmetric and has a normal shape.
+```{r, echo = FALSE}
+many.binom = sapply(1:1000000, function(i) { 
+  binom = sample(c("X","F"), 80, 
+                 prob = c(0.15, 0.85), replace = TRUE) 
+  num.of.success = sum(binom == "X")
+  return(num.of.success)
+  })
+
+hist1 = hist(many.binom, main = "Number of Students Who Don't Turn in Their Homework", xlab = "Students Who Don't Turn in Their Homework", ylab = "Frequency")
+```
+
+c)
+The average and standard number of successes in 80 trials:
+```{r, echo = FALSE}
+#1(c)
+mean(many.binom)
+sd(many.binom)
+```
+
+d)
+The probability that all students turn in their homework based on our simulation:
+```{r, echo = FALSE}
+#1(d)
+prob1 = sum(many.binom == 0)
+prob1/length(many.binom)
+```
+
+e) 
+The probability that at least four students did not turn in their homework:
+```{r, echo = FALSE}
+#1(e)
+prob3 = sum(many.binom >= 4)
+prob3/length(many.binom)
+```
+
+f)
+The median number of students who will forget their homework:
+```{r, echo = FALSE}
+#1(f)
+median(many.binom)
+```
+
+II.
+a) 
+Data is used from built in "lynx" dataset.
+
+The distribution of the histogram is skewed right.
+```{r,echo=FALSE}
+#2(a)
+hist(lynx,main="Lynx Histogram",xlab="Heights")
+
+```
+
+Mean and Variance
+```{r,echo=FALSE}
+mean(lynx)
+var(lynx)
+```
+
+
+b)
+Mean of the random sample of 10.
+```{r,echo=FALSE}
+#2b
+experiment = sample(lynx, 10, replace=TRUE)
+mean(experiment)
+```
+
+c)
+Mean and standard deviation of the 1000000 vector means.
+```{r,echo=FALSE}
+#2c
+ many.experiments = sapply(1:1000000, function(i){
+  experiment = sample(lynx,10, replace = TRUE)
+  sample.mean= mean(experiment)
+  return(sample.mean)
+})
+mean(many.experiments)
+sd(many.experiments)
+```
+
+
+The distribution is slightly skewed right and the means are spread out in terms of frequency.
+```{r,echo=FALSE}
+
+hist(many.experiments, xlab='Means', main= 'Histogram of the Means')
+```
+
+d)
+Mean of the sample size of 50:
+```{r,echo=FALSE}
+#2d
+experiment = sample(many.experiments, 50, replace=TRUE)
+mean(experiment)
+```
+
+e)
+Mean stays approximately the same as before, however our standard deviation decreases substantially.
+```{r,echo=FALSE}
+#2e
+ more.experiments = sapply(1:1000000, function(i){
+  experiment = sample(many.experiments,50, replace = TRUE)
+  sample.mean= mean(experiment)
+  return(sample.mean)
+})
+mean(more.experiments)
+sd(more.experiments)
+```
+
+f)
+The distribution is approximately normally distributed and the means are a lot less spread out than our previous histogram, as the sample size increased our histogram become more normally distributed and our standard deviation decreased.
+```{r, echo=FALSE}
+#2f
+hist(more.experiments, xlab='Means', main= 'Histogram of the Increased Sample Size')
+```
+
+Appendix:
+```{r, ref.label=knitr::all_labels(),echo=TRUE,eval=FALSE}
+
+```
